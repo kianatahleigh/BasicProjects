@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form onsubmit="return check(event)">
+      <label for="uid">User ID:</label>
+      <input
+        type="text"
+        name="uid"
+        id="uid"
+        required
+        pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,12}"
+        title="Must contain at least one  number and one uppercase and lowercase letter, and at least 8-12 characters"
+      />
+      <div id="error"></div>
+
+      <label for="fname">First Name:</label>
+      <input type="text" name="fname" id="fname" required />
+      <div id="error1"></div>
+
+      <label for="lname">Last Name:</label>
+      <input type="text" name="lname" id="lname" required />
+      <div id="error2"></div>
+
+      <label for="birthday">Birthday:</label>
+      <input type="date" name="birthday" id="birthday" required />
+      <div id="error3"></div>
+      <div id="days"></div>
+
+      <button
+        onclick="dateDiff(); verifyFields(); verifyFields1(); verifyFields2(); verifyFields3();"
+        type="submit"
+      >
+        Accept
+      </button>
+    </form>
+
+    <p id="demo"></p>
+    <script>
+      function verifyFields() {
+        var uid = document.getElementById("uid").value;
+        if (uid.length < 8 || uid.length > 12) {
+          document.getElementById("error").innerHTML = "Invalid UserID";
+        } else if (!/[A-Z]/.test(uid)) {
+          document.getElementById("error").innerHTML = "Invalid UserID";
+        } else if (!/[a-z]/.test(uid)) {
+          document.getElementById("error").innerHTML = "Invalid UserID";
+        } else if (!/[0-9]/.test(uid)) {
+          document.getElementById("error").innerHTML = "Invalid UserID";
+        }
+      }
+
+      function verifyFields1() {
+        var fname = document.getElementById("fname").value;
+
+        if (fname == "") {
+          document.getElementById("error1").innerHTML = "Invalid First Name";
+          return false;
+        }
+      }
+
+      function verifyFields2() {
+        var lname = document.getElementById("lname").value;
+
+        if (lname == "") {
+          document.getElementById("error2").innerHTML = "Invalid Last Name";
+          return false;
+        }
+      }
+
+      function verifyFields3() {
+        var birthday = document.getElementById("birthday").value;
+
+        if (birthday == "") {
+          document.getElementById("error3").innerHTML = "Invalid Birthday";
+          return false;
+        }
+      }
+
+      function dateDiff() {
+        var birthday = new Date(document.getElementById("birthday").value);
+        var days = Math.round((new Date() - birthday) / 86400000);
+        var fname = document.getElementById("fname").value;
+        var lname = document.getElementById("lname").value;
+        event.preventDefault();
+
+        if (days > 365 * 18) {
+          document.getElementById("days").innerHTML =
+            fname +
+            " " +
+            lname +
+            ", you have been breathing for " +
+            days +
+            " days!";
+        } else {
+          document.getElementById("days").innerHTML =
+            "You are probably not old enough to take this class!";
+        }
+      }
+
+      let str = "";
+      for (let i = 0; i <= 20; i++) {
+        str += "".padStart(i, "x") + "<br>";
+      }
+      document.getElementById("demo").innerHTML = str;
+    </script>
+  </body>
+</html>
